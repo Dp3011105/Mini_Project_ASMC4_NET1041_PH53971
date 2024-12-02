@@ -1,0 +1,37 @@
+﻿            @model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.Tag>
+
+@{
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Danh Sách Tag";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên Tag</th>
+            <th>Trạng Thái</th>
+            <th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tag in Model)
+        {
+            <tr>
+                <td>@tag.TenTag</td>
+                <td>@(tag.TrangThai ? "Kích hoạt" : "Vô hiệu hóa")</td>
+                <td>
+                    <a href="@Url.Action("EditTag", "Admin", new { id = tag.MaTag })" class="btn btn-warning btn-sm">Sửa</a>
+                    <!-- Thêm nút xóa ở đây nếu cần -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("CreateTag", "Admin")" class="btn btn-primary">Thêm Mới Tag</a>
+<a href="/Admin/Index" class="btn btn-primary">Trở về Trang Tổng quản lý</a>
+
+
+

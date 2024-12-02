@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.DonHang>
+
+@{
+    
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    ViewBag.Title = "Cập nhật trạng thái đơn hàng";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">Danh sách đơn hàng</h1>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- Hiển thị thông báo thành công nếu có -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Bảng hiển thị các đơn hàng -->
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Mã đơn hàng</th>
+                <th>Thời gian đặt</th>
+                <th>Trạng thái hiện tại</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var donHang in Model)
+            {
+                <tr>
+                    <td>@donHang.MaDonHang</td>
+                    <td>@donHang.MaDonHang</td>
+                    <td>@donHang.ThoiGianDat</td>
+                    <td>@donHang.TrangThai</td>
+                    <td>
+                        <form asp-action="UpdateTrangThai" method="post">
+                            <input type="hidden" name="id" value="@donHang.MaDonHang" />
+                            <select name="trangThai" class="form-control">
+                                <!-- Nếu trạng thái là "Chua_Giao_Hang" cho phép chọn bất kỳ trạng thái nào -->
+                                @if (donHang.TrangThai == "Chua_Giao_Hang")
+                                {
+                                    <option value="Chua_Giao_Hang" selected>Chưa giao hàng</option>
+                                    <option value="Da_Giao_Hang">Đã giao hàng</option>
+                                    <option value="Hoan_Thanh">Hoàn thành</option>
+                                    <option value="Huy_Don_Hang">Hủy đơn hàng</option>
+                                }
+                                <!-- Nếu trạng thái là "Da_Giao_Hang" chỉ cho phép chọn "Hoan_Thanh" hoặc "Huy_Don_Hang" -->
+                                else if (donHang.TrangThai == "Da_Giao_Hang")
+                                {
+                                <option value="Hoan_Thanh">Hoàn thành</option>
+                                <option value="Huy_Don_Hang">Hủy đơn hàng</option>
+                                }
+                                <!-- Nếu trạng thái là "Hoan_Thanh" hoặc "Huy_Don_Hang" thì không cho phép thay đổi -->
+                                else
+                                {
+                                <option value="@donHang.TrangThai" selected>@donHang.TrangThai</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-2">Cập nhật trạng thái</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

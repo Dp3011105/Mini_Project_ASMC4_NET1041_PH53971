@@ -1,0 +1,106 @@
+﻿
+
+@inject IHttpContextAccessor HttpContextAccessor
+@inject MiniProjectAsmc4Net1041Ph53971Context _dbContext;
+
+@functions {
+    public string GetVaiTro(int? maNguoiDung)
+    {
+        if (maNguoiDung == null) return null;
+        var user = _dbContext.NguoiDungs.FirstOrDefault(u => u.MaNguoiDung == maNguoiDung);
+        return user?.VaiTro; // Trả về vai trò từ DB
+    }
+}
+
+@{
+    var maNguoiDung = HttpContextAccessor.HttpContext?.Session.GetInt32("MaNguoiDung");
+    var vaiTro = GetVaiTro(maNguoiDung);
+    var isAdmin = !string.IsNullOrEmpty(vaiTro) && vaiTro.Equals("Admin", StringComparison.OrdinalIgnoreCase);
+}
+
+@if (!isAdmin)
+{
+    IgnoreBody();
+    <script>
+        alert('Bạn không có quyền truy cập vào khu vực này!');
+        window.location.href = '/KhachHang/Index'; // Chuyển hướng đến trang khác
+    </script>
+}
+else
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Admin Panel</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/admin.css" />
+    </head>
+    <body>
+
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <!-- Phần phải: Thông tin người dùng hoặc Đăng nhập -->
+            <div class="d-flex align-items-center">
+                @if (Context.Session.GetString("TenNguoiDung") != null)
+                {
+                    <!-- Hiển thị tên người dùng và điều hướng -->
+                    <a href="@Url.Action("DetailsNguoiDung", "KhachHang", new { id = Context.Session.GetInt32("MaNguoiDung") })"
+                       class="btn btn-primary me-2">
+                        Chào, @Context.Session.GetString("TenNguoiDung")
+                    </a>
+
+                    <!-- Đăng xuất -->
+                    <a class="btn btn-danger" href="/Login/Logout">Đăng xuất</a>
+                }
+                else
+                {
+                    <!-- Đăng nhập và Đăng ký -->
+                    <a href="/Login/Login" class="btn btn-primary me-2">Đăng nhập</a>
+                    <a href="/Login/DangKy" class="btn btn-secondary">Đăng ký</a>
+                }
+            </div>
+        </div>
+
+        <div class="d-flex" style="height: 100vh;">
+            <!-- Sidebar -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark flex-column align-items-start p-3" style="width: 250px;">
+                <a href="@Url.Action("Index", "Admin")" class="navbar-brand mb-4">
+                    <h3>Admin Panel</h3>
+                </a>
+                <ul class="navbar-nav flex-column w-100">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Admin")" class="nav-link">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ListNguoiDung", "Admin")" class="nav-link">Quản lý người dùng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ListMonAn", "Admin")" class="nav-link">Quản lý món ăn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ListComBo", "Admin")" class="nav-link">Quản lý combo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("ListDonHang", "Admin")" class="nav-link">Quản lý đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("IndexTag", "Admin")" class="nav-link">Quản lý Tag</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="flex-grow-1 bg-light">
+                <div class="container-fluid py-4">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+
+        <!-- Bootstrap JS (optional for interactive components) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+}

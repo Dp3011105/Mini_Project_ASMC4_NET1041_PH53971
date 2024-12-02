@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Đơn Hàng Của Tôi";
+}
+
+<h2 class="text-center my-4">Đơn Hàng Của Tôi</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        Bạn chưa có đơn hàng nào.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Mã Đơn Hàng</th>
+                    <th>Ngày Đặt</th>
+                    <th>Trạng Thái</th>
+                    <th>Tổng Tiền</th>
+                    <th>Chi Tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var donHang in Model)
+                {
+                    <tr>
+                        <td>@donHang.MaDonHang</td>
+                        <td>@donHang.ThoiGianDat.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge
+                                @((donHang.TrangThai == "Chua_Van_Chuyen") ? "badge-warning text-dark" : "badge-success text-white")">
+                                @donHang.TrangThai
+                            </span>
+                        </td>
+
+                        <td>@donHang.TongTien.ToString() VND</td>
+                        <td>
+                            <a href="@Url.Action("ChiTietDonHang", "DonHang", new { id = donHang.MaDonHang })" class="btn btn-info btn-sm">
+                               Xem
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">

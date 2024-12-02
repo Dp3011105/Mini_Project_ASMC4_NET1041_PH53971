@@ -1,0 +1,37 @@
+﻿@model Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung
+
+<h2>Đăng Ký Tài Khoản</h2>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+<form asp-action="DangKy" method="post">
+    <div class="form-group">
+        <label for="Ten">Tên</label>
+        <input type="text" id="Ten" name="Ten" class="form-control" value="@Model?.Ten" required />
+    </div>
+    <div class="form-group">
+        <label for="MatKhau">Mật khẩu</label>
+        <input type="password" id="MatKhau" name="MatKhau" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Email" class="form-control" value="@Model?.Email" />
+    </div>
+    <div class="form-group">
+        <label for="SoDienThoai">Số điện thoại</label>
+        <input type="text" id="SoDienThoai" name="SoDienThoai" class="form-control" value="@Model?.SoDienThoai" />
+    </div>
+    <div class="form-group">
+        <label for="NgaySinh">Ngày sinh</label>
+        <input type="date" id="NgaySinh" name="NgaySinh" class="form-control" value="@Model?.NgaySinh?.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Đăng ký</button>
+</form>
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">

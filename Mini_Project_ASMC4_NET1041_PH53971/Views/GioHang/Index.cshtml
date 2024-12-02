@@ -1,0 +1,88 @@
+﻿@model Mini_Project_ASMC4_NET1041_PH53971.Models.GioHang
+
+@if (Model == null)
+{
+    <p class="alert alert-warning">Giỏ hàng không tồn tại.</p>
+}
+else
+{
+    <h1 class="mb-4">Giỏ Hàng của Bạn</h1>
+
+    @if (Model.ChiTietGioHangs != null && Model.ChiTietGioHangs.Count == 0)
+    {
+        <p class="alert ">Giỏ hàng của bạn hiện tại không có sản phẩm nào. Hãy thêm sản phẩm hoặc combo vào giỏ hàng.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Thứ tự</th>
+                        <th>Tên Sản Phẩm/Combo</th>
+                        <th>Số Lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng Giá</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ChiTietGioHangs)
+                    {
+                        <tr>
+                            <td>
+                               
+                            </td>
+                            <td>
+                                @if (item.MaMonAnNavigation != null)
+                                {
+                                    @item.MaMonAnNavigation.TenMonAn
+                                }
+                                else if (item.MaComboNavigation != null)
+                                {
+                                    @item.MaComboNavigation.TenCombo
+                                }
+                            </td>
+
+                            <td>
+                                <!-- Form để cập nhật số lượng sản phẩm -->
+                                <form method="post" action="@Url.Action("UpdateQuantity", "GioHang")" class="d-inline">
+                                    <input type="hidden" name="chiTietGioHangId" value="@item.MaChiTietGioHang" />
+                                    <div class="input-group input-group-sm" style="width: 120px;">
+                                        <input type="number" name="newQuantity" value="@item.SoLuong" min="1" max="99" class="form-control" required />
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-warning btn-sm">Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>@item.Gia.ToString() VND </td>
+                            <td>@(item.SoLuong * item.Gia) VND</td>
+                            <td>
+                                <!-- Form để xóa sản phẩm khỏi giỏ hàng -->
+                                <form method="post" action="@Url.Action("RemoveFromCart", "GioHang")" class="d-inline">
+                                    <input type="hidden" name="chiTietGioHangId" value="@item.MaChiTietGioHang" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <h3 class="text-right">Tổng cộng: @(Model.ChiTietGioHangs.Sum(item => item.SoLuong * item.Gia))VND</h3>
+            <form asp-action="Checkout" asp-controller="GioHang" method="post" class="d-inline">
+                <button type="submit" class="btn btn-success btn-lg">Thanh Toán</button>
+            </form>
+
+        </div>
+    }
+}
+
+
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">

@@ -1,0 +1,33 @@
+﻿
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">
+@model MonAn
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<h1 class="text-center my-4">@Model.TenMonAn</h1>
+
+<div class="card mx-auto shadow" style="max-width: 600px;">
+    <img src="@Model.DuongDanHinh" class="card-img-top" alt="@Model.TenMonAn" style="object-fit: cover; height: 300px;">
+    <div class="card-body">
+        <h5 class="card-title text-primary fw-bold">Mô tả:</h5>
+        <p class="card-text">@Model.MoTa</p>
+        <h5 class="card-title text-danger fw-bold">Giá:</h5>
+        <p class="card-text">@Model.Gia.ToString("N0") VND</p>
+        <h5 class="card-title text-success fw-bold">Số lượng còn lại:</h5>
+        <p class="card-text">@Model.Soluong</p>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+   
+        <!-- Người dùng chưa đăng nhập -->
+        <p class="text-danger fw-bold">Bạn cần đăng nhập hoặc đăng ký để mua hàng.</p>
+    <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Đăng nhập</a>
+    <a href="@Url.Action("DangKy", "Login")" class="btn btn-warning">Đăng ký</a>
+  
+    <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary ms-2">Quay lại danh sách</a>
+</div>

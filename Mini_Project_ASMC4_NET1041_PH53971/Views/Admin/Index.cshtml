@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Trang Quản Lý Admin";
+}
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">Trang Quản Lý</h2>
+            <div class="d-flex justify-content-between">
+                <div class="btn-group">
+                    <a href="@Url.Action("ListNguoiDung", "Admin")" class="btn btn-outline-primary btn-lg mx-2">
+                        <i class="fa fa-users"></i> Quản lý Người dùng
+                    </a>
+                    <a href="@Url.Action("ListMonAn", "Admin")" class="btn btn-outline-primary btn-lg mx-2">
+                        <i class="fa fa-cutlery"></i> Quản lý Món ăn
+                    </a>
+                    <a href="@Url.Action("ListDonHang", "Admin")" class="btn btn-outline-primary btn-lg mx-2">
+                        <i class="fa fa-list-alt"></i> Quản lý Đơn Hàng
+                    </a>
+                    <a href="@Url.Action("ListComBo", "Admin")" class="btn btn-outline-primary btn-lg mx-2">
+                        <i class="fa fa-cogs"></i> Quản lý ComBo
+                    </a>
+                    <!-- Thêm mục Quản lý Tag -->
+                    <a href="@Url.Action("IndexTag", "Admin")" class="btn btn-outline-primary btn-lg mx-2">
+                        <i class="fa fa-tags"></i> Quản lý Tag
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

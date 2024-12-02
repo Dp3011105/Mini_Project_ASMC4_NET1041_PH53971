@@ -1,0 +1,63 @@
+﻿
+@model Mini_Project_ASMC4_NET1041_PH53971.Models.Combo
+@{
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+
+}
+<h2>Thêm Combo</h2>
+
+<form asp-action="CreateCombo" method="post">
+    <div class="form-group">
+        <label for="TenCombo">Tên Combo</label>
+        <input type="text" class="form-control" id="TenCombo" name="TenCombo" required />
+    </div>
+    <div class="form-group">
+        <label for="MoTa">Mô Tả</label>
+        <textarea class="form-control" id="MoTa" name="MoTa"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="Gia">Giá</label>
+        <input type="number" class="form-control" id="Gia" name="Gia" required />
+    </div>
+    <div class="form-group">
+        <label for="DuongDanHinh">Đường Dẫn Hình</label>
+        <input type="text" class="form-control" id="DuongDanHinh" name="DuongDanHinh" />
+    </div>
+    <div class="form-group">
+        <label for="TrangThai">Trạng Thái</label>
+        <select class="form-control" id="TrangThai" name="TrangThai">
+            <option value="true">Hoạt động</option>
+            <option value="false">Dừng hoạt động</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="MonAn">Chọn Món Ăn</label>
+        <div id="monAnList">
+            @foreach (var monAn in ViewBag.MonAnList)
+            {
+                if (monAn.TrangThai == true)
+                {
+                    <div>
+                        <input type="checkbox" name="selectedMonAnIds" value="@monAn.MaMonAn" id="monAn-@monAn.MaMonAn" onchange="toggleSoLuongInput(@monAn.MaMonAn)" />
+                        <label for="monAn-@monAn.MaMonAn">@monAn.TenMonAn</label>
+                        <input type="number" name="selectedSoLuongs" id="soLuong-@monAn.MaMonAn" value="1" min="1" disabled />
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm Combo</button>
+</form>
+<a asp-action="ListCombo" class="btn btn-secondary">Quay lại</a>
+<script>
+    function toggleSoLuongInput(maMonAn) {
+        const checkBox = document.getElementById(`monAn-${maMonAn}`);
+        const soLuongInput = document.getElementById(`soLuong-${maMonAn}`);
+        soLuongInput.disabled = !checkBox.checked;
+        if (!checkBox.checked) {
+            soLuongInput.value = 1; // Reset về 1 nếu bỏ chọn
+        }
+    }
+
+</script>

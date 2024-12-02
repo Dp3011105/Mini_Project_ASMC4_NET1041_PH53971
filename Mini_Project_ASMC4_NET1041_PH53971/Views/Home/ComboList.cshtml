@@ -1,0 +1,38 @@
+﻿@model List<Mini_Project_ASMC4_NET1041_PH53971.Models.Combo>
+
+<h2 class="text-center my-4">Danh Sách Combo</h2>
+
+<!-- Form tìm kiếm -->
+<form method="get" class="mb-4">
+    <div class="form-group">
+        <label for="searchName">Tìm kiếm theo tên:</label>
+        <input type="text" name="searchName" id="searchName" class="form-control" value="@Context.Request.Query["searchName"]" />
+    </div>
+    <br />
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        
+    </div>
+</form>
+
+<!-- Hiển thị danh sách combo -->
+<div class="row mt-4">
+    @foreach (var combo in Model)
+    {
+        // Kiểm tra nếu TrangThai là true
+        if (combo.TrangThai == true) // Chỉ hiển thị khi TrangThai là true
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <img class="card-img-top img-fluid" src="@combo.DuongDanHinh" alt="@combo.TenCombo" style="object-fit: cover; height: 200px;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">@combo.TenCombo</h5>
+                        <p class="card-text text-muted">@combo.MoTa</p>
+                        <p class="card-text text-danger fw-bold">Giá: @combo.Gia.ToString("N0") VND</p>
+                        <a href="@Url.Action("ComboDetails", "Home", new { id = combo.MaCombo })" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

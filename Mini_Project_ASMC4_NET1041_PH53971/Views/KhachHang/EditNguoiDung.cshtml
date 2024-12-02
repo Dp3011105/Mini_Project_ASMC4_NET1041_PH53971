@@ -1,0 +1,42 @@
+﻿
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">
+@model Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung
+
+<h2>Chỉnh Sửa Mật Khẩu</h2>
+
+<form asp-action="EditNguoiDung" method="post">
+    <input type="hidden" name="MaNguoiDung" value="@Model.MaNguoiDung" />
+
+    <div class="form-group">
+        <label for="Ten">Tên</label>
+        <input type="text" class="form-control" id="Ten" name="Ten" value="@Model.Ten" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MatKhauCu">Mật Khẩu Cũ</label>
+        <input type="password" class="form-control" id="MatKhauCu" name="MatKhauCu" required />
+        @if (ViewData["MatKhauCuError"] != null)
+        {
+            <span class="text-danger">@ViewData["MatKhauCuError"]</span>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="MatKhauMoi">Mật Khẩu Mới</label>
+        <input type="password" class="form-control" id="MatKhauMoi" name="MatKhauMoi" required />
+        @if (ViewData["MatKhauMoiError"] != null)
+        {
+            <span class="text-danger">@ViewData["MatKhauMoiError"]</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>

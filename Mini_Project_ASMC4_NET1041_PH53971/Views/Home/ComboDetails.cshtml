@@ -1,0 +1,39 @@
+﻿@model ComboDetailsViewModel
+
+<h2 class="text-center my-4">Chi Tiết Combo: @Model.Combo.TenCombo</h2>
+
+<div class="card mx-auto shadow" style="max-width: 600px;">
+    <img class="card-img-top img-fluid" src="@Model.Combo.DuongDanHinh" alt="@Model.Combo.TenCombo" style="object-fit: cover; height: 300px;">
+    <div class="card-body">
+        <h5 class="card-title text-primary fw-bold">@Model.Combo.TenCombo</h5>
+        <p class="card-text">@Model.Combo.MoTa</p>
+        <h5 class="card-title text-danger fw-bold">Giá:</h5>
+        <p class="card-text">@Model.Combo.Gia.ToString("N0") VND</p>
+    </div>
+</div>
+
+<h3 class="text-center my-4">Các Món Ăn Trong Combo</h3>
+<div class="list-group">
+    @foreach (var item in Model.MonAnsInCombo)
+    {
+        <div class="list-group-item shadow-sm mb-3">
+            <h5 class="text-primary fw-bold">@item.MaMonAnNavigation.TenMonAn</h5>
+            <p class="mb-1">@item.MaMonAnNavigation.MoTa</p>
+            <p class="text-success mb-1"><strong>Số lượng:</strong> @item.SoLuong</p>
+            <p class="text-danger fw-bold">Giá: @item.MaMonAnNavigation.Gia.ToString("N0") VND</p>
+        </div>
+    }
+</div>
+
+
+<div class="text-center mt-4">
+
+    <!-- Người dùng chưa đăng nhập -->
+    <p class="text-danger fw-bold">Bạn cần đăng nhập hoặc đăng ký để mua hàng.</p>
+    <a href="@Url.Action("Login", "Account")" class="btn btn-secondary">Đăng nhập</a>
+    <a href="@Url.Action("Register", "Account")" class="btn btn-warning">Đăng ký</a>
+
+    <a href="@Url.Action("ComboList", "Home")" class="btn btn-outline-secondary ms-2">Quay lại danh sách</a>
+</div>
+
+

@@ -1,0 +1,87 @@
+﻿
+
+
+
+  @using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - demogiohang</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/demogiohang.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <!-- Phần trái: Trang chủ, Combo, Giỏ hàng, Đơn hàng -->
+            <div class="d-flex align-items-center">
+                <a href="/KhachHang/Index" class="btn btn-primary me-3">Trang Chủ</a>
+                <a href="/KhachHang/IndexComBo" class="btn btn-primary me-3">Combo</a>
+
+                @if (HttpContextAccessor.HttpContext?.Session.GetInt32("MaNguoiDung") != null)
+                {
+                    <!-- Hiển thị Giỏ hàng -->
+                    <a href="@Url.Action("Index", "GioHang")" class="btn btn-primary me-3">
+                        Giỏ hàng (@(HttpContextAccessor.HttpContext.Session.GetInt32("GioHang") ?? 0))
+                    </a>
+
+                    <!-- Hiển thị Đơn hàng -->
+                    <a href="@Url.Action("DonHangCuaToi", "DonHang")" class="btn btn-primary">Xem Đơn Hàng</a>
+                }
+            </div>
+
+            <!-- Phần phải: Thông tin người dùng hoặc Đăng nhập -->
+            <div class="d-flex align-items-center">
+                @if (HttpContextAccessor.HttpContext?.Session.GetString("TenNguoiDung") != null)
+                {
+                    <!-- Hiển thị tên người dùng và điều hướng -->
+                    <a href="@Url.Action("DetailsNguoiDung", "KhachHang", new { id = HttpContextAccessor.HttpContext.Session.GetInt32("MaNguoiDung") })"
+                       class="btn btn-primary me-2">
+                        Chào, @HttpContextAccessor.HttpContext.Session.GetString("TenNguoiDung")
+                    </a>
+
+                    <!-- Đăng xuất -->
+                    <a class="btn btn-danger" href="/Login/Logout">Đăng xuất</a>
+                }
+                else
+                {
+                    <!-- Đăng nhập và Đăng ký -->
+                    <a href="/Login/Login" class="btn btn-primary me-2">Đăng nhập</a>
+                    <a href="/Login/DangKy" class="btn btn-secondary">Đăng ký</a>
+                }
+            </div>
+        </div>
+
+
+
+    </header>
+
+    <div class="container-flud">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @* <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div> *@
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - demogiohang - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

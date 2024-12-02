@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung>
+
+@{
+    
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    ViewData["Title"] = "Danh Sách Người Dùng";
+}
+
+<h2>Danh Sách Người Dùng</h2>
+
+<!-- Nút Thêm Người Dùng -->
+<a class="btn btn-success" href="@Url.Action("CreateNguoiDung", "Admin")">Thêm Người Dùng</a>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Trạng Thái</th>
+            <th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Ten</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (user.TrangThai == true)
+                    {
+                        <span class="badge badge-success text-black">Hoạt Động</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger text-black">Dừng Hoạt Động</span>
+                    }
+                </td>
+                <td>
+                    <!-- Nút Sửa -->
+                    <a class="btn btn-primary" href="@Url.Action("EditNguoiDung", "Admin", new { id = user.MaNguoiDung })">Sửa</a>
+
+                    <!-- Nút Xóa (Sử dụng JavaScript confirm để xác nhận xóa) -->
+                    <a class="btn btn-danger" href="@Url.Action("ListNguoiDung", "Admin", new { id = user.MaNguoiDung })"
+                       onclick="return confirm('Không có được xóa nha , đổi trạng thái thoii')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Admin/Index" class="btn btn-primary">Trở về Trang Tổng quản lý</a>

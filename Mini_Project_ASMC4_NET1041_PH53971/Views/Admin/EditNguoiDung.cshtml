@@ -1,0 +1,82 @@
+﻿@model Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung
+
+@{
+
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    ViewData["Title"] = "Chỉnh Sửa Người Dùng";
+}
+
+<h2>Chỉnh Sửa Người Dùng</h2>
+
+<form asp-action="EditNguoiDung" method="post">
+    <input type="hidden" asp-for="MaNguoiDung" />
+
+    <div class="form-group">
+        <label for="Ten">Tên Người Dùng</label>
+        <input type="text" class="form-control" id="Ten" name="Ten" value="@Model.Ten" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MatKhau">Mật Khẩu</label>
+        <input type="password" class="form-control" id="MatKhau" name="MatKhau" value="@Model.MatKhau" required />
+    </div>
+
+    <div class="form-group">
+        <label for="SoDienThoai">Số Điện Thoại</label>
+        <input type="text" class="form-control" id="SoDienThoai" name="SoDienThoai" value="@Model.SoDienThoai" />
+    </div>
+
+    <div class="form-group">
+        <label for="VaiTro">Vai Trò</label>
+        <select class="form-control" id="VaiTro" name="VaiTro">
+            @if (Model.VaiTro == "Admin")
+            {
+                <option value="Admin" selected>Admin</option>
+                <option value="KhachHang">Khách Hàng</option>
+            }
+            else if (Model.VaiTro == "KhachHang")
+            {
+                <option value="Admin">Admin</option>
+                <option value="KhachHang" selected>Khách Hàng</option>
+            }
+            else
+            {
+                <option value="Admin">Admin</option>
+                <option value="KhachHang">Khách Hàng</option>
+            }
+        </select>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label for="NgaySinh">Ngày Sinh</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" value="@Model.NgaySinh?.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="form-group">
+        <label for="TrangThai">Trạng Thái</label>
+        <select class="form-control" id="TrangThai" name="TrangThai">
+            @if (Model.TrangThai)
+            {
+                <option value="true" selected>Hoạt Động</option>
+                <option value="false">Dừng Hoạt Động</option>
+            }
+            else
+            {
+                <option value="true">Hoạt Động</option>
+                <option value="false" selected>Dừng Hoạt Động</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cập Nhật Người Dùng</button>
+</form>

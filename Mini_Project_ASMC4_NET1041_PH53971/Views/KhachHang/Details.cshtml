@@ -1,0 +1,37 @@
+﻿
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">
+@model Mini_Project_ASMC4_NET1041_PH53971.Models.MonAn
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<h1 class="text-center my-4 text-primary fw-bold">@Model.TenMonAn</h1>
+
+<div class="card mx-auto shadow" style="max-width: 600px;">
+    <img src="@Model.DuongDanHinh" class="card-img-top img-fluid" alt="@Model.TenMonAn" style="object-fit: cover; height: 300px;">
+    <div class="card-body">
+        <h5 class="card-title text-primary">Mô tả:</h5>
+        <p class="card-text text-muted">@Model.MoTa</p>
+        <h5 class="card-title text-danger fw-bold">Giá:</h5>
+        <p class="card-text text-danger">@Model.Gia.ToString("N0") VND</p>
+        <h5 class="card-title text-success fw-bold">Số lượng còn lại:</h5>
+        <p class="card-text text-success">@Model.Soluong</p>
+
+        <!-- Form để thêm sản phẩm vào giỏ hàng -->
+        <form action="@Url.Action("AddMonAn", "GioHang")" method="post" class="mt-4">
+            <input type="hidden" name="maMonAn" value="@Model.MaMonAn" />
+            <div class="form-group">
+                <label for="soLuong" class="fw-bold">Số lượng:</label>
+                <input type="number" name="soLuong" id="soLuong" value="1" min="1" max="@Model.Soluong" class="form-control w-50 mx-auto" required />
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 w-100">Thêm vào giỏ hàng</button>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="@Url.Action("Index", "KhachHang")" class="btn btn-secondary">Quay lại danh sách</a>
+</div>

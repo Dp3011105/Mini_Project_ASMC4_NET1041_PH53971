@@ -1,0 +1,51 @@
+﻿@model Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung
+
+@{
+    
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    ViewData["Title"] = "Tạo Người Dùng Mới";
+}
+
+<h2>Tạo Người Dùng Mới</h2>
+
+<form asp-action="CreateNguoiDung" method="post">
+    <div class="form-group">
+        <label for="Ten">Tên Người Dùng</label>
+        <input type="text" class="form-control" id="Ten" name="Ten" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MatKhau">Mật Khẩu</label>
+        <input type="password" class="form-control" id="MatKhau" name="MatKhau" required />
+    </div>
+
+    <div class="form-group">
+        <label for="VaiTro">Vai Trò</label>
+        <select class="form-control" id="VaiTro" name="VaiTro">
+            <option value="Admin">Admin</option>
+            <option value="KhachHang">Khách Hàng</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="NgaySinh">Ngày Sinh</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" />
+    </div>
+
+    <div class="form-group">
+        <label for="TrangThai">Trạng Thái</label>
+        <select class="form-control" id="TrangThai" name="TrangThai">
+            <option value="true">Hoạt Động</option>
+            <option value="false">Dừng Hoạt Động</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tạo Người Dùng</button>
+</form>

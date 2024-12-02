@@ -1,0 +1,80 @@
+﻿@model Mini_Project_ASMC4_NET1041_PH53971.Models.MonAn
+
+@{
+    
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    ViewData["Title"] = "Sửa Món Ăn";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="EditMonAn" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="MaMonAn" value="@Model.MaMonAn" />
+
+    <div class="form-group">
+        <label for="TenMonAn">Tên Món Ăn</label>
+        <input type="text" class="form-control" id="TenMonAn" name="TenMonAn" value="@Model.TenMonAn" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MoTa">Mô Tả</label>
+        <textarea class="form-control" id="MoTa" name="MoTa">@Model.MoTa</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Gia">Giá</label>
+        <input type="number" class="form-control" id="Gia" name="Gia" value="@Model.Gia" required />
+    </div>
+
+    <div class="form-group">
+        <label for="SoLuong">Số Lượng</label>
+        <input type="number" class="form-control" id="SoLuong" name="SoLuong" value="@Model.Soluong" required />
+    </div>
+
+    <div class="form-group">
+        <label for="MaTag">Chọn Tag</label>
+        <select class="form-control" id="MaTag" name="MaTag">
+            @foreach (var tag in ViewBag.Tags as List<Mini_Project_ASMC4_NET1041_PH53971.Models.Tag>)
+            {
+                if (tag.TrangThai)
+                {
+                    var selected = (Model.MaTag != null && tag.MaTag == Model.MaTag) ? "selected" : "";
+                    <option value="@tag.MaTag">@tag.TenTag</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="TrangThai">Trạng Thái</label>
+        <select class="form-control" id="TrangThai" name="TrangThai">
+            @if (Model.TrangThai == true)
+            {
+                <option value="true" selected>Hoạt Động</option>
+            }
+            else
+            {
+                <option value="true">Hoạt Động</option>
+            }
+
+            @if (Model.TrangThai == false)
+            {
+                <option value="false" selected>Dừng Hoạt Động</option>
+            }
+            else
+            {
+                <option value="false">Dừng Hoạt Động</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="DuongDanHinh">Đường Dẫn Hình Ảnh</label>
+        <input type="text" class="form-control" id="DuongDanHinh" name="DuongDanHinh" value="@Model.DuongDanHinh" />
+        <small class="form-text text-muted">Cập nhật URL hình ảnh (nếu có).</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>

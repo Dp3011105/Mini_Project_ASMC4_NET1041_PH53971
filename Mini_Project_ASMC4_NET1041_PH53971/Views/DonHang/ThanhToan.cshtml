@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.DonHang>
+
+<h2>Danh Sách Đơn Hàng</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Đơn Hàng</th>
+            <th>Thời Gian Đặt</th>
+            <th>Trạng Thái</th>
+            <th>Tổng Tiền</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donHang in Model)
+        {
+            <tr>
+                <td>@donHang.MaDonHang</td>
+                <td>@donHang.ThoiGianDat.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@donHang.TrangThai</td>
+                <td>@donHang.TongTien.ToString() VND</td>
+                <td>
+                    @if (donHang.TrangThai == "Chua_Van_Chuyen")
+                    {
+                        <form asp-action="CapNhatTrangThai" method="post" style="display: inline;">
+                            <input type="hidden" name="maDonHang" value="@donHang.MaDonHang" />
+                            <input type="hidden" name="trangThaiMoi" value="Huy_Don" />
+                            <button type="submit" class="btn btn-danger btn-sm">Hủy Đơn</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">

@@ -1,0 +1,55 @@
+﻿         @model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.MonAn>
+         
+@{
+
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+
+}
+
+<h2>Danh Sách Món Ăn</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên Món Ăn</th>
+            <th>Mô Tả</th>
+            <th>Giá</th>
+            <th>Tag</th>
+            <th>Trạng Thái</th>
+            <th>Hình Ảnh</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var monAn in Model)
+        {
+            <tr>
+                <td>@monAn.TenMonAn</td>
+                <td>@monAn.MoTa</td>
+                <td>@monAn.Gia.ToString() VND </td>
+                <td>@monAn.MaTagNavigation?.TenTag</td>  <!-- Hiển thị tên tag -->
+                <td>@(monAn.TrangThai == true ? "Hoạt Động" : "Dừng Hoạt Động")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(monAn.DuongDanHinh))
+                    {
+                        <img src="@monAn.DuongDanHinh" alt="Hình ảnh" width="100" />
+                    }
+                    else
+                    {
+                        <span>Không có hình ảnh</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("EditMonAn", "Admin", new { id = monAn.MaMonAn })" class="btn btn-warning btn-sm">Sửa</a>
+                    <a href="@Url.Action("ListMonAn", "Admin", new { id = monAn.MaMonAn })" class="btn btn-danger btn-sm" onclick="return confirm('Đổi trang thái thôi không xóa nhé')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("CreateMonAn", "Admin")" class="btn btn-success">Thêm Món Ăn</a>
+<a href="/Admin/Index" class="btn btn-primary">Trở về Trang Tổng quản lý</a>

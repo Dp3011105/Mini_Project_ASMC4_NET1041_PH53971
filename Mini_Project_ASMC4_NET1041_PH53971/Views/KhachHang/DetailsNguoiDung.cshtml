@@ -1,0 +1,30 @@
+﻿
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">
+
+@model Mini_Project_ASMC4_NET1041_PH53971.Models.NguoiDung
+
+@{
+    ViewData["Title"] = "Thông Tin Cá Nhân";
+}
+
+<h2>Thông Tin Cá Nhân</h2>
+
+@if (Model == null)
+{
+    <p>Không tìm thấy thông tin người dùng.</p>
+}
+else
+{
+    <div>
+        <p><strong>Mã Người Dùng:</strong> @Model.MaNguoiDung</p>
+        <p><strong>Tên Người Dùng:</strong> @Model.Ten</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <!-- Không hiển thị VaiTro -->
+    </div>
+
+    <div>
+        <a href="@Url.Action("EditNguoiDung", "KhachHang", new { id = Model.MaNguoiDung })" class="btn btn-warning">Chỉnh sửa thông tin</a>
+    </div>
+}

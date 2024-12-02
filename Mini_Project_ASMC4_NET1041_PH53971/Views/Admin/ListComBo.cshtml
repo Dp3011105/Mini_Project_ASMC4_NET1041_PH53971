@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Mini_Project_ASMC4_NET1041_PH53971.Models.Combo>
+@{
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+    
+}
+<h2>Danh Sách Combo</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên Combo</th>
+            <th>Mô Tả</th>
+            <th>Giá</th>
+            <th>Trạng Thái</th>
+            <th>Món Ăn Trong Combo</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var combo in Model)
+        {
+            <tr>
+                <td>@combo.TenCombo</td>
+                <td>@combo.MoTa</td>
+                <td>@combo.Gia.ToString() VND</td>
+                <td>@(combo.TrangThai == true ? "Hoạt Động" : "Dừng Hoạt Động")</td>
+                <td>
+                    @foreach (var chiTiet in combo.ChiTietCombos)
+                    {
+                        <p>@chiTiet.MaMonAnNavigation.TenMonAn (Số lượng: @chiTiet.SoLuong)</p>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("EditComBo", "Admin", new { id = combo.MaCombo })" class="btn btn-warning btn-sm">Sửa</a>
+                    <a href="@Url.Action("ListComBo", "Admin", new { id = combo.MaCombo })" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("CreateComBo", "Admin")" class="btn btn-success">Thêm Combo</a>
+
+<a href="/Admin/Index" class="btn btn-primary">Trở về Trang Tổng quản lý</a>
+

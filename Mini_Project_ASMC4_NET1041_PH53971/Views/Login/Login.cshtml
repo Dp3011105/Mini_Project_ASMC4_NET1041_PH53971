@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card shadow p-4" style="width: 400px;">
+        <h2 class="text-center text-primary mb-4">Đăng Nhập</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="matKhau">Mật khẩu</label>
+                <input type="password" class="form-control" id="matKhau" name="matKhau" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="@Url.Action("ForgotPassword", "Login")" class="text-decoration-none">Quên mật khẩu?</a> |
+            <a href="@Url.Action("DangKy", "Login")" class="text-decoration-none">Đăng ký</a>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/daodien/css/bootstrap.css">
+<link rel="stylesheet" href="~/daodien/css/fonts.css">
+<link rel="stylesheet" href="~/daodien/css/style.css">

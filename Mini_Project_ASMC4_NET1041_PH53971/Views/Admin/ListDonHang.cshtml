@@ -1,0 +1,180 @@
+﻿@model List<Mini_Project_ASMC4_NET1041_PH53971.Models.DonHang>
+@{
+    Layout = "~/views/shared/_AdminLayout.cshtml";
+
+}
+<h2>Danh Sách Đơn Hàng</h2>
+<a href="/Admin/Index" class="btn btn-primary">Trở về Trang Tổng quản lý</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã Đơn Hàng</th>
+            <th>Thời Gian Đặt</th>
+            <th>Trạng Thái</th>
+            <th>Tổng Tiền</th>
+            <th>Chi Tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donHang in Model)
+        {
+            <tr>
+                <td>@donHang.MaDonHang</td>
+                <td>@donHang.ThoiGianDat.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <form id="form-@donHang.MaDonHang" data-maDonHang="@donHang.MaDonHang" style="display:inline;">
+                        <select name="trangThai" class="form-control" onchange="updateTrangThai(@donHang.MaDonHang, this.value)">
+                            @if (donHang.TrangThai == "Chua_Van_Chuyen")
+                            {
+                                <option value="Chua_Van_Chuyen" selected>Chưa Vận Chuyển</option>
+                                <option value="Da_Van_Chuyen">Đã Vận Chuyển</option>
+                                <option value="Hoan_Thanh">Hoàn Thành</option>
+                                <option value="Huy_Don">Hủy Đơn Hàng</option>
+                            }
+                            else if (donHang.TrangThai == "Da_Van_Chuyen")
+                            {
+                                <option value="Da_Van_Chuyen" selected>Đã Vận Chuyển</option>
+                                <option value="Hoan_Thanh">Hoàn Thành</option>
+                                <option value="Huy_Don">Hủy Đơn Hàng</option>
+                            }
+                            else if (donHang.TrangThai == "Hoan_Thanh" || donHang.TrangThai == "Huy_Don")
+                            {
+                                <option value="@donHang.TrangThai" selected>
+                                    @(donHang.TrangThai == "Hoan_Thanh" ? "Hoàn Thành" : "Hủy Đơn")
+                                </option>
+                            }
+                        </select>
+
+                    </form>
+                </td>
+                <td>@donHang.TongTien.ToString("C")</td>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#details-@donHang.MaDonHang">
+                        Xem Chi Tiết
+                    </button>
+                    <div id="details-@donHang.MaDonHang" class="collapse">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tên Món/Combo</th>
+                                    <th>Loại</th>
+                                    <th>Số Lượng</th>
+                                    <th>Giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var chiTiet in donHang.ChiTietDonHangs)
+                                {
+                                    <tr>
+                                        <td>
+                                            @(chiTiet.MaMonAnNavigation?.TenMonAn ?? chiTiet.MaComboNavigation?.TenCombo ?? "N/A")
+                                        </td>
+                                        <td>
+                                            @(chiTiet.MaMonAn.HasValue ? "Món Ăn" : "Combo")
+                                        </td>
+                                        <td>@chiTiet.SoLuong</td>
+                                        <td>@chiTiet.Gia.ToString() VND</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Add jQuery if it's not already added in your project -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // function updateTrangThai(maDonHang, trangThai) {
+    //     $.ajax({
+    //         url: '@Url.Action("CapNhatTrangThai", "DonHang")', // Đảm bảo gọi action trong AdminController
+    //         type: 'POST',
+    //         data: {
+    //             id: maDonHang,
+    //             trangThai: trangThai
+    //         },
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 alert('Trạng thái đơn hàng đã được cập nhật.');
+    //                 // Có thể thêm logic để cập nhật lại trạng thái trong bảng mà không reload lại trang.
+    //             } else {
+    //                 alert(response.message || 'Cập nhật trạng thái thất bại.');
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             alert('Đã có lỗi xảy ra: ' + error);
+    //         }
+    //     });
+    // }
+
+    function updateTrangThai(maDonHang, trangThai) {
+        $.ajax({
+            url: '@Url.Action("CapNhatTrangThai", "DonHang")',
+            type: 'POST',
+            data: {
+                MaDonHang: maDonHang,
+                TrangThai: trangThai
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message || 'Trạng thái đơn hàng đã được cập nhật.');
+                    $("#form-" + maDonHang + " select").val(trangThai); // Cập nhật dropdown
+                } else {
+                    alert(response.message || 'Cập nhật trạng thái thất bại.');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Đã có lỗi xảy ra: ' + error);
+            }
+        });
+    }
+
+
+
+    // Cập nhật danh sách các trạng thái có thể chọn, dựa trên trạng thái hiện tại của đơn hàng
+    // function updateDropdown(maDonHang, trangThaiHienTai) {
+    //     let dropdown = $("#form-" + maDonHang + " select"); // Lấy dropdown cho đơn hàng này
+    //     dropdown.empty(); // Xóa các tùy chọn cũ
+
+    //     if (trangThaiHienTai === "Chua_Van_Chuyen") {
+    //         dropdown.append('<option value="Chua_Van_Chuyen" selected>Chưa Giao Hàng</option>');
+    //         dropdown.append('<option value="Da_Van_Chuyen">Đã Vận Chuyển</option>');
+    //         dropdown.append('<option value="Hoan_Thanh">Hoàn Thành</option>');
+    //         dropdown.append('<option value="Huy_Don">Hủy Đơn Hàng</option>');
+    //     } else if (trangThaiHienTai === "Da_Van_Chuyen") {
+    //         dropdown.append('<option value="Da_Van_Chuyen" selected>Đã Vận Chuyển</option>');
+    //         dropdown.append('<option value="Hoan_Thanh">Hoàn Thành</option>');
+    //     } else {
+    //         // Nếu là "Hoan_Thanh" hoặc "Huy_Don" thì không thể thay đổi
+    //         dropdown.append('<option value="' + trangThaiHienTai + '" selected>' + trangThaiHienTai + '</option>');
+    //     }
+    // }
+
+    function updateDropdown(maDonHang, trangThaiHienTai) {
+        let dropdown = $("#form-" + maDonHang + " select");
+        dropdown.empty();
+
+        if (trangThaiHienTai === "Chua_Van_Chuyen") {
+            dropdown.append('<option value="Chua_Van_Chuyen">Chưa Vận Chuyển</option>');
+            dropdown.append('<option value="Da_Giao_Hang">Đã Vận Chuyển</option>');
+            dropdown.append('<option value="Hoan_Thanh">Hoàn Thành</option>');
+            dropdown.append('<option value="Huy_Don">Hủy Đơn Hàng</option>');
+        } else if (trangThaiHienTai === "Da_Giao_Hang") {
+            dropdown.append('<option value="Da_Giao_Hang">Đã Vận Chuyển</option>');
+            dropdown.append('<option value="Hoan_Thanh">Hoàn Thành</option>');
+        } else {
+            dropdown.append('<option value="' + trangThaiHienTai + '">' + trangThaiHienTai + '</option>');
+        }
+
+        dropdown.val(trangThaiHienTai); // Đặt giá trị được chọn
+    }
+
+
+</script>
+
+
